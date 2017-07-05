@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/TourGuide.iml" filepath="$PROJECT_DIR$/TourGuide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commonpopupwindow/commonpopupwindow.iml" filepath="$PROJECT_DIR$/commonpopupwindow/commonpopupwindow.iml" />
+    </modules>
+  </component>
+</project>

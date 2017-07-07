@@ -1,1 +1,1 @@
-include ':commonpopupwindow'
+include ':commonpopupwindow', ':supertextview'

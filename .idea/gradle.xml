@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/commonpopupwindow" />
+            <option value="$PROJECT_DIR$/supertextview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

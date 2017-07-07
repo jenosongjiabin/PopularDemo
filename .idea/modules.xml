@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TourGuide.iml" filepath="$PROJECT_DIR$/TourGuide.iml" />
       <module fileurl="file://$PROJECT_DIR$/commonpopupwindow/commonpopupwindow.iml" filepath="$PROJECT_DIR$/commonpopupwindow/commonpopupwindow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/supertextview/supertextview.iml" filepath="$PROJECT_DIR$/supertextview/supertextview.iml" />
     </modules>
   </component>
 </project>

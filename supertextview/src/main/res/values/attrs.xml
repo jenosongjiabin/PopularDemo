@@ -51,10 +51,51 @@
         <attr name="sCenterSpaceHeight" format="dimension"/> <!--textView之间的间隔-->
 
 
-
         <attr name="sLeftTopTextSize" format="dimension"/> <!---->
         <attr name="sLeftCenterTextSize" format="dimension"/>
         <attr name="sLeftBottomTextSize" format="dimension"/>
+
+
+        <attr name="sLeftTopLines" format="integer"/>
+        <attr name="sLeftCenterLines" format="integer"/>
+        <attr name="sLeftBottomLines" format="integer"/>
+
+
+        <attr name="sLeftTopMaxEms" format="integer"/>
+        <attr name="sLeftCenterMaxEms" format="integer"/>
+        <attr name="sLeftBottomMaxEms" format="integer"/>
+
+
+        <attr name="sLeftTopTextIsBold" format="boolean"/>
+        <attr name="sLeftCenterIsBold" format="boolean"/>
+        <attr name="sLeftBottomIsBold" format="boolean"/>  <!--字体是否加粗呢-->
+
+
+        <!--  View的对齐方式-->
+        <attr name="sLeftViewGravity" format="enum">
+            <enum name="left_center" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right_center" value="2"/>
+        </attr>
+        <attr name="sCenterViewGravity" format="enum">
+            <enum name="left_center" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right_center" value="2"/>
+        </attr>
+        <attr name="sRightViewGravity" format="enum">
+            <enum name="left_center" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right_center" value="2"/>
+        </attr>
+
+        <attr name="sLeftTvDrawableLeft" format="reference"/>
+        <attr name="sLeftTvDrawableRight" format="reference"/>
+        <attr name="sCenterTvDrawableLeft" format="reference"/>
+        <attr name="sCenterTvDrawableRight" format="reference"/>
+        <attr name="sRightTvDrawableLeft" format="reference"/>
+        <attr name="sRightTvDrawableRight" format="reference"/>
+
+        <attr name="sTextViewDrawablePadding" format="dimension"/> <!--图片和文字间的 padding -->
 
 
         <attr name="sLeftTopTextColor" format="color"/>

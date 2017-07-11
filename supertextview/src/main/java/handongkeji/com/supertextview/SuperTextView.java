@@ -7,11 +7,13 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 /**
  * author : 宋佳
@@ -80,6 +82,33 @@ public class SuperTextView extends RelativeLayout {
     private int mLeftTopTextSize;
     private int mLeftCenterTextSize;
     private int mLeftBottomTextSize;
+    private int mLeftTopLines;
+    private int mLeftCenterLines;
+    private int mLeftBottomLines;
+    private int mLeftTopMaxEms;
+    private int mLeftCenterMaxEms;
+    private int mLeftBottomMaxEms;
+    private boolean mLeftTopTextIsBold;
+    private boolean mLeftCenterTextIsBold;
+    private boolean mLeftBottomTextIsBold;
+    private int default_Gravity = -1;
+    private int mLeftGravity;
+
+
+    private static final int gravity_Left_Center = 0;
+    private static final int gravity_Center = 1;
+    private static final int gravity_Right_Center = 2;
+    private int mCenterGravity;
+    private int mRightGravity;
+    private Drawable mLeftTvDrawableLeft;
+    private Drawable mLeftTvDrawableRight;
+    private Drawable mCenterTvDrawableLeft;
+    private Drawable mCenterTvDrawableRight;
+    private Drawable mRightTvDrawableLeft;
+    private Drawable mRightTvDrawableRight;
+    private int mTextViewDrawablePadding;
+    private BaseTextView centerView;
+    private LayoutParams centerBaseViewParams;
 
     public SuperTextView(Context context) {
         this(context, null);
@@ -126,7 +155,22 @@ public class SuperTextView extends RelativeLayout {
      * 初始化 中间的文字
      */
     private void initCentterTextView() {
+        if (centerView == null) {
+            centerView = initBaseView(R.id.sCenterViewId);
+        }
+        centerBaseViewParams = getParams(centerBaseViewParams);
+        centerBaseViewParams.addRule(RelativeLayout.CENTER_IN_PARENT, TRUE);
+        centerBaseViewParams.addRule(RelativeLayout.CENTER_VERTICAL, TRUE);
 
+        //默认情况下  中间的View整体剧中显示，设置左对齐或者右对齐的话使用下边属性
+        if (mCenterGravity != gravity_Center) {
+            centerBaseViewParams.addRule(RIGHT_OF, R.id.sLeftViewId);
+            centerBaseViewParams.addRule(LEFT_OF, R.id.sRightViewId);
+        }
+
+        
+
+        addView(centerView);
     }
 
     /**
@@ -148,7 +192,112 @@ public class SuperTextView extends RelativeLayout {
         setDefaultString(leftView, mLeftTopTextString, mLeftTextString, mBottomTextString);//设置文字
         setDefaultColor(leftView, mLeftTopTextColor, mLeftCenterTextColor, mLeftBottomTextColor);//设置三个 textview的颜色
         setDefaultSize(leftView, mLeftTopTextSize, mLeftCenterTextSize, mLeftBottomTextSize);//设置字体的大小
-         
+        setDefaultLines(leftView, mLeftTopLines, mLeftCenterLines, mLeftBottomLines); //设置做多行数
+        setDefaultMaxEms(leftView, mLeftTopMaxEms, mLeftCenterMaxEms, mLeftBottomMaxEms);//设置 TextView 中字体最大数量
+        setDefaultTextIsBold(leftView, mLeftTopTextIsBold, mLeftCenterTextIsBold, mLeftBottomTextIsBold);//设置 textview 中字体的粗细
+        setDefaultGravity(leftView, mLeftGravity);
+        setDefaultDrawable(leftView.getCenterTextView(), mLeftTvDrawableLeft, mLeftTvDrawableRight, mTextViewDrawablePadding);
+        addView(leftView);
+    }
+
+
+    /**
+     * 设置textView的drawable
+     *
+     * @param textView        对象
+     * @param drawableLeft    左边图标
+     * @param drawableRight   右边图标
+     * @param drawablePadding 图标距离文字的间距
+     */
+    public void setDefaultDrawable(TextView textView, Drawable drawableLeft, Drawable drawableRight, int drawablePadding) {
+        if (drawableLeft != null || drawableRight != null) {
+            textView.setVisibility(VISIBLE);
+        }
+        textView.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null);
+        textView.setCompoundDrawablePadding(drawablePadding);
+    }
+
+    /**
+     * 设置文字对其方式
+     *
+     * @param baseTextView baseTextView
+     * @param gravity      对其方式
+     */
+    private void setDefaultGravity(BaseTextView baseTextView, int gravity) {
+        if (baseTextView != null) {
+            setGravity(baseTextView.getTopTextView(), gravity);
+            setGravity(baseTextView.getCenterTextView(), gravity);
+            setGravity(baseTextView.getBottomTextView(), gravity);
+        }
+    }
+
+    /**
+     * 文字对其方式
+     *
+     * @param textView textView
+     * @param gravity  对其方式
+     */
+    private void setGravity(TextView textView, int gravity) {
+        switch (gravity) {
+            case gravity_Left_Center:
+                textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+                break;
+            case gravity_Center:
+                textView.setGravity(Gravity.CENTER);
+                break;
+            case gravity_Right_Center:
+                textView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+                break;
+        }
+    }
+
+    /**
+     * 字体是否加粗
+     *
+     * @param baseTextView   baseTextView
+     * @param topTextBold    上边字体加粗
+     * @param centerTextBold 中间字体加粗
+     * @param bottomTextBold 下边字体加粗
+     */
+    private void setDefaultTextIsBold(BaseTextView baseTextView, boolean topTextBold, boolean centerTextBold, boolean bottomTextBold) {
+        if (baseTextView != null) {
+            baseTextView.getTopTextView().getPaint().setFakeBoldText(topTextBold);
+            baseTextView.getCenterTextView().getPaint().setFakeBoldText(centerTextBold);
+            baseTextView.getBottomTextView().getPaint().setFakeBoldText(bottomTextBold);
+        }
+    }
+
+
+    /**
+     * 设置默认maxEms
+     *
+     * @param baseTextView baseTextView
+     * @param topMaxEms    topMaxEms
+     * @param centerMaxEms centerMaxEms
+     * @param bottomMaxEms bottomMaxEms
+     */
+    private void setDefaultMaxEms(BaseTextView baseTextView, int topMaxEms, int centerMaxEms, int bottomMaxEms) {
+        if (baseTextView != null) {
+            baseTextView.setMaxEms(topMaxEms, centerMaxEms, bottomMaxEms);
+        }
+
+    }
+
+
+    /**
+     * 设置TextView 的行高
+     *
+     * @param baseTextView
+     * @param mLeftTopLines
+     * @param mLeftCenterLines
+     * @param mLeftBottomLines
+     */
+    private void setDefaultLines(BaseTextView baseTextView, int mLeftTopLines, int mLeftCenterLines, int mLeftBottomLines) {
+        if (baseTextView != null) {
+            baseTextView.getTopTextView().setLines(mLeftTopLines);
+            baseTextView.getCenterTextView().setLines(mLeftCenterLines);
+            baseTextView.getBottomTextView().setLines(mLeftBottomLines);
+        }
     }
 
 
@@ -373,7 +522,7 @@ public class SuperTextView extends RelativeLayout {
         mLeftIconMarginLeft = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sLeftIconMarginLeft, default_Margin);
 
         mRightIconWidht = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sRightIconWidth, 0);
-        mRightiIconHeight = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sRightIconHeight, 0);
+        mRightiIconHeight = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sRightIconheight, 0);
         mRightIconRes = typedArray.getDrawable(R.styleable.SuperTextView_sRightIconRes);//图片资源
         mRightIconMarginRight = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sRightIconMarginRight, default_Margin);//距离右边的距离
 
@@ -412,6 +561,38 @@ public class SuperTextView extends RelativeLayout {
         mLeftTopTextSize = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sLeftTopTextSize, defaultSize);
         mLeftCenterTextSize = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sLeftCenterTextSize, defaultSize);
         mLeftBottomTextSize = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sLeftBottomTextSize, defaultSize);
+
+
+        //行数
+        mLeftTopLines = typedArray.getInt(R.styleable.SuperTextView_sLeftTopLines, 1);//得到textview的行数
+        mLeftCenterLines = typedArray.getInt(R.styleable.SuperTextView_sLeftCenterLines, 1);//得到textview的行数
+        mLeftBottomLines = typedArray.getInt(R.styleable.SuperTextView_sLeftBottomLines, 1);//得到textview的行数
+
+        //得到TextView 中输入的字的数量
+        mLeftTopMaxEms = typedArray.getIndex(R.styleable.SuperTextView_sLeftTopMaxEms);
+        mLeftCenterMaxEms = typedArray.getIndex(R.styleable.SuperTextView_sLeftCenterMaxEms);
+        mLeftBottomMaxEms = typedArray.getIndex(R.styleable.SuperTextView_sLeftBottomMaxEms);
+
+        //TextView中的 字体是否加粗呢
+        mLeftTopTextIsBold = typedArray.getBoolean(R.styleable.SuperTextView_sLeftTopTextIsBold, false);
+        mLeftCenterTextIsBold = typedArray.getBoolean(R.styleable.SuperTextView_sLeftCenterIsBold, false);
+        mLeftBottomTextIsBold = typedArray.getBoolean(R.styleable.SuperTextView_sLeftBottomIsBold, false);//是否加粗呢
+
+        // 字体的 gravity
+        mLeftGravity = typedArray.getInt(R.styleable.SuperTextView_sLeftViewGravity, default_Gravity);
+        mCenterGravity = typedArray.getInt(R.styleable.SuperTextView_sCenterViewGravity, default_Gravity);
+        mRightGravity = typedArray.getInt(R.styleable.SuperTextView_sRightViewGravity, default_Gravity);
+
+
+        mLeftTvDrawableLeft = typedArray.getDrawable(R.styleable.SuperTextView_sLeftTvDrawableLeft);
+        mLeftTvDrawableRight = typedArray.getDrawable(R.styleable.SuperTextView_sLeftTvDrawableRight);// 左边textview drawableRight -- >
+        mCenterTvDrawableLeft = typedArray.getDrawable(R.styleable.SuperTextView_sCenterTvDrawableLeft);
+        mCenterTvDrawableRight = typedArray.getDrawable(R.styleable.SuperTextView_sCenterTvDrawableRight);
+        mRightTvDrawableLeft = typedArray.getDrawable(R.styleable.SuperTextView_sRightTvDrawableLeft);
+        mRightTvDrawableRight = typedArray.getDrawable(R.styleable.SuperTextView_sRightTvDrawableRight);
+
+
+        mTextViewDrawablePadding = typedArray.getDimensionPixelSize(R.styleable.SuperTextView_sTextViewDrawablePadding, default_Margin);
 
         typedArray.recycle();
     }

@@ -1,6 +1,7 @@
 package handongkeji.com.supertextview;
 
 import android.content.Context;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -159,13 +160,25 @@ public class BaseTextView extends LinearLayout {
     }
 
     /**
-     *  如果在这个 ll 中有三个textview 之间的间隔
+     * 如果在这个 ll 中有三个textview 之间的间隔
+     *
      * @param centerSpaceHeight
      */
     public void setCenterSpaceHeight(int centerSpaceHeight) {
         topTVParams.setMargins(0, 0, 0, centerSpaceHeight / 2);
         centerTVParams.setMargins(0, centerSpaceHeight / 2, 0, centerSpaceHeight / 2);
         bottomTVParams.setMargins(0, centerSpaceHeight / 2, 0, 0);
+    }
+
+    public void setMaxEms(int topMaxEms, int centerMaxEms, int bottomMaxEms) {
+
+        topTextView.setEllipsize(TextUtils.TruncateAt.END);
+        centerTextView.setEllipsize(TextUtils.TruncateAt.END);//设置省略号在结尾
+        bottomTextView.setEllipsize(TextUtils.TruncateAt.END);
+
+        topTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(topMaxEms)}); //限制最大的数字的数量
+        centerTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(centerMaxEms)});//限制最大的数字的数量
+        bottomTextView.setFilters(new InputFilter[]{new InputFilter.LengthFilter(bottomMaxEms)});//限制最大的数字的数量
     }
 
 }

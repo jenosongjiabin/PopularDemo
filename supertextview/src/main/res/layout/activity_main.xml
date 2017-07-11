@@ -13,8 +13,7 @@
         app:sLeftIconMarginLeft="10dp"
         app:sLeftIconRes="@mipmap/ic_launcher"
         app:sRightVieType="checkbox"
-        app:sUseRipple="true"
-        >
+        app:sUseRipple="true">
 
 
     </handongkeji.com.supertextview.SuperTextView>

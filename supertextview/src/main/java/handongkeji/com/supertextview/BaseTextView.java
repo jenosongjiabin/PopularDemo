@@ -79,7 +79,6 @@ public class BaseTextView extends LinearLayout {
     private TextView initTextView(LinearLayout.LayoutParams params, TextView textView) {
         textView = getTextView(textView, params);
         textView.setGravity(Gravity.CENTER);
-        addView(textView);
         return textView;
     }
 

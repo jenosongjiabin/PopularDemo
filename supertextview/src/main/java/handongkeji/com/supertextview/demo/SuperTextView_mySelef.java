@@ -16,7 +16,7 @@ import handongkeji.com.supertextview.R;
 /**
  * author : 宋佳
  * time   : 2017/07/10
- * desc   :   是在不想写了  好多啊   
+ * desc   :   是在不想写了  好多啊
  * version: 1.0.0
  */
 

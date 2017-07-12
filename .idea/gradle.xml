@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/commonpopupwindow" />
             <option value="$PROJECT_DIR$/supertextview" />
+            <option value="$PROJECT_DIR$/tablayout" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
